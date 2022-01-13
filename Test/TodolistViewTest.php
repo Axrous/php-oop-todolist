@@ -1,48 +1,58 @@
 <?php
 
 require_once "./Entity/Todolist.php";
-require_once "./Service/TodolistService.php";
+require_once "./Helper/InputHelper.php";
 require_once "./Repository/TodolistRepository.php";
+require_once "./Service/TodolistService.php";
+require_once "./View/TodolistView.php";
 
 use Entity\TodoList;
 use Repository\TodolistRepositoryImpl;
 use Service\TodolistServiceimpl;
+use View\TodolistView;
 
-function testShowTodolist() {
+function testViewShowTodolist(): void {
 
     $todolistRepository = new TodolistRepositoryImpl();
-    $todolistRepository->todolist[1] = new TodoList("Arga");
-
     $todolistService = new TodolistServiceimpl($todolistRepository);
+    $todolistView = new TodolistView($todolistService);
 
-    $todolistService->showTodolist();
-
-}
-
-function testAddTodolist(): void {
-    $todolistRepository = new TodolistRepositoryImpl();
-
-    $todolistService = new TodolistServiceimpl($todolistRepository);
-    $todolistService->addTodolist("Coba-coba");
     $todolistService->addTodolist("Arga");
     $todolistService->addTodolist("Satya");
     $todolistService->addTodolist("Mulyono");
 
-    $todolistService->showTodolist();
+    $todolistView->showTodolist();
 }
+function testViewAddTodolist(): void {
 
-function testRemoveTodolist(): void {
     $todolistRepository = new TodolistRepositoryImpl();
-
     $todolistService = new TodolistServiceimpl($todolistRepository);
-    $todolistService->addTodolist("Coba-coba");
+    $todolistView = new TodolistView($todolistService);
+
     $todolistService->addTodolist("Arga");
     $todolistService->addTodolist("Satya");
     $todolistService->addTodolist("Mulyono");
 
-    $todolistService->showTodolist();
-    $todolistService->removeTodolist(1);
+    $todolistView->addTodolist();
 
     $todolistService->showTodolist();
 }
-testRemoveTodolist();
+
+function testViewremoveTodolist(): void {
+
+    $todolistRepository = new TodolistRepositoryImpl();
+    $todolistService = new TodolistServiceimpl($todolistRepository);
+    $todolistView = new TodolistView($todolistService);
+
+    $todolistService->addTodolist("Arga");
+    $todolistService->addTodolist("Satya");
+    $todolistService->addTodolist("Mulyono");
+    
+    $todolistView->showTodolist();
+
+    $todolistView->removeTodolist();
+
+    $todolistService->showTodolist();
+}
+
+testViewRemoveTodolist();
